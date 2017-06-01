@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>DrewEasley</authors>
+    <owners>DrewEasley</owners>
+    <projectUrl>https://www.github.com/EzriCloud/BusRoutes</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>EzriCloud BusRoutes</tags>
+  </metadata>
+</package>
