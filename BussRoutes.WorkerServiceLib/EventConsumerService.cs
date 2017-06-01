@@ -7,31 +7,41 @@ using Topshelf;
 using BusRoutes.CentralDispatch.Logger;
 using BusRoutes.CentralDispatch.Busses;
 using BusRoutes.CentralDispatch.Config;
+using BusRoutes.CentralDispatch.Consumers;
+using MassTransit;
 
 namespace BusRoutes.WorkerServiceLib
 {
     public class EventConsumerService : ServiceControl
     {
+
+        private BusTable _myBusTable;
+        private Guid? _currentBusId;
+
+        public EventConsumerService (BusTable myBusTable, Guid? currentBusId)
+        {
+            _myBusTable = myBusTable;
+            _currentBusId = currentBusId;
+        }
+
         public bool Start(HostControl hostControl)
         {
             try
             {
-                Logger.Debug("Service starting");
+               Logger.Debug("Service starting");
 
-                BusTable _myBusTable = new BusTable();
-                Guid? newBusId = _myBusTable.addBus(MyConfigValues.ServiceBusUri, MyConfigValues.ServiceBusKeyName, MyConfigValues.ServiceBusKey, true);
-                if (newBusId.HasValue)
+                if (_currentBusId.HasValue)
                 {
-                    _myBusTable.StartBus(newBusId.Value);
+                    _myBusTable.StartBus(_currentBusId.Value);
                 }
 
 
-                Logger.Debug("Service started successfully");
+                Logger.Info("Service started successfully");
                 return true;
             }
             catch (Exception ex)
             {
-                Logger.Debug("service failed to start successfully", ex);
+                Logger.Fatal("service failed to start successfully", ex);
             }
 
             return false;
@@ -45,12 +55,12 @@ namespace BusRoutes.WorkerServiceLib
             try
             {
                 Logger.Debug("Service stopping.");
-                Logger.Debug("Service stopped successfully");
+                Logger.Info("Service stopped successfully");
                 return true;
             }
             catch (Exception ex)
             {
-                Logger.Debug("Service failed to stop successfully", ex);
+                Logger.Fatal("Service failed to stop successfully", ex);
             }
 
             return false;

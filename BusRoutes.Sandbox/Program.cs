@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusRoutes;
+
 
 namespace BusRoutes.Sandbox
 {
@@ -10,6 +12,8 @@ namespace BusRoutes.Sandbox
     {
         static void Main(string[] args)
         {
+            
+            BusLine.sendCommand("presence", "me!");
         }
     }
 }

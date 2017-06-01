@@ -7,6 +7,8 @@ using MassTransit;
 using MassTransit.AzureServiceBusTransport;
 using BusRoutes.CentralDispatch.Logger;
 using Microsoft.ServiceBus;
+using BusRoutes.CentralDispatch.Consumers;
+using BusRoutes.CentralDispatch.Config;
 
 namespace BusRoutes.CentralDispatch.Busses
 {
@@ -19,6 +21,18 @@ namespace BusRoutes.CentralDispatch.Busses
         public BusTable()
         {
             _myBusses = new Dictionary<Guid, IBusControl>();
+        }
+
+        public IBusControl GetBus(Guid? busId)
+        {
+            if (busId.HasValue)
+            {
+                if (_myBusses.ContainsKey(busId.Value))
+                {
+                    return _myBusses[busId.Value];
+                }
+            }
+            return null;
         }
 
         public void StartBus(Guid busId)
@@ -44,12 +58,19 @@ namespace BusRoutes.CentralDispatch.Busses
             }
         }
 
-        public Guid? addBus(Uri ServiceBusUri, String ServiceBusKeyName, String ServiceBusKey, bool isQueueWorker)
+        public Guid? addBus()
+        {
+            return addBus(MyConfigValues.ServiceBusUri, MyConfigValues.ServiceBusKeyName, MyConfigValues.ServiceBusKey);
+
+        }
+
+        public Guid? addBus(Uri ServiceBusUri, String ServiceBusKeyName, String ServiceBusKey)
         {
             try
             {
                 Guid myRouteId = Guid.NewGuid();
-                IBusControl serviceBus = Bus.Factory.CreateUsingAzureServiceBus(cfg => {
+                IBusControl serviceBus = Bus.Factory.CreateUsingAzureServiceBus(cfg =>
+                {
                     IServiceBusHost serviceBusHost = cfg.Host(ServiceBusUri, host =>
                      {
                          host.OperationTimeout = TimeSpan.FromSeconds(5);
@@ -62,15 +83,16 @@ namespace BusRoutes.CentralDispatch.Busses
 
                      });
 
-                    if (isQueueWorker)
+                    if (MyConfigValues.isConsumer)
                     {
-                        cfg.ReceiveEndpoint(serviceBusHost, "happyhour_queue", e =>
+                        Logger.Logger.Debug($"Registering to receive messages sent to {MyConfigValues.ServiceBusEnvironmentName}/{MyConfigValues.SubEnvironment} azure queue.");
+                        cfg.ReceiveEndpoint(serviceBusHost, MyConfigValues.SubEnvironment, e =>
                         {
-                            //e.Consumer<AnnouncePresenceConsumer>();
+                            e.SubscribeMessageTopics = true;
+                            e.Consumer<AnnouncePresenceConsumer>();
                         });
 
                     }
-
                 });
 
                 _myBusses.Add(myRouteId, serviceBus);
@@ -78,6 +100,7 @@ namespace BusRoutes.CentralDispatch.Busses
             }
             catch (Exception ex)
             {
+
                 Logger.Logger.Debug("An error occurred while adding a bus.", ex);
             }
             return null;

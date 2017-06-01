@@ -68,6 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Commands\AnnouncePresence.cs" />
+    <Compile Include="Consumers\AnnouncePresenceConsumer.cs" />
+    <Compile Include="Contracts\IAnnouncePresence.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Config\MyConfigValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

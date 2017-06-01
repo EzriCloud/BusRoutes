@@ -11,6 +11,9 @@ namespace BusRoutes.CentralDispatch.Config
 {
     public static class MyConfigValues
     {
+
+        
+
         public static Uri ServiceBusUri
         {
             get
@@ -25,6 +28,14 @@ namespace BusRoutes.CentralDispatch.Config
 
         public static string ServiceBusName {  get { return GetSettingString("ServiceBus.Name"); } }
         public static string ServiceBusEnvironmentName {  get { return GetSettingString("ServiceBus.Environment"); } }
+        public static string CryptoKey {  get { return GetSettingString("CryptoKey"); } }
+        
+        public static string SubEnvironment {  get { return GetSettingString("ServiceBus.SubEnvironment").ToLower(); } }
+        public static bool isConsumer {  get {
+                string consumerString = GetSettingString("IAmAConsumer");
+                if (consumerString == null) { return false; }
+
+                return consumerString.ToLower().Equals("yes"); } }
 
 
         public static string GetSettingString(string settingName)

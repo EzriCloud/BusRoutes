@@ -48,5 +48,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusRoutes\BusRoutes.csproj">
+      <Project>{6430b42f-a469-48c0-8399-6b2ca7cfafb4}</Project>
+      <Name>BusRoutes</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -68,7 +68,6 @@
   <ItemGroup>
     <Compile Include="EventConsumerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BusLine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
