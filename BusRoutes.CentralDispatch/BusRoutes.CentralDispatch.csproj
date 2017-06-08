@@ -67,6 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Busses\AzureBusList.cs" />
+    <Compile Include="Busses\ServiceBus.cs" />
+    <Compile Include="Busses\AzureBus.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Commands\AnnouncePresence.cs" />
     <Compile Include="Consumers\AnnouncePresenceConsumer.cs" />
@@ -74,10 +77,12 @@
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Config\MyConfigValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Busses\BusTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="WorkerService\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

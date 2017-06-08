@@ -14,7 +14,7 @@ namespace BusRoutes.CentralDispatch.Consumers
     {
             public async Task Consume(ConsumeContext<IAnnouncePresence> context)
             {
-
+            Logger.Logger.Debug("Oh boy ! We have a Presnce message to consume");
             bool AllowAnonymous = true;
             HostInfo hostInfo = context.Host;
             String hostString = String.Format("{0}/{1} v{2} @{3}", hostInfo.Assembly, hostInfo.ProcessName, hostInfo.AssemblyVersion, hostInfo.MachineName);
@@ -22,7 +22,8 @@ namespace BusRoutes.CentralDispatch.Consumers
 
             if ((MessageAuthKey == MyConfigValues.CryptoKey) || (AllowAnonymous && MessageAuthKey == "Anonymous"))
             {
-                String presenceMessage = $"{context.Message.MyIdentifier} announced their presence at {context.Message.MyTimestamp} UTC (Auth: {MessageAuthKey}) {hostString}";
+                
+                String presenceMessage = $"[Presence {context.SourceAddress.ToString()} --> {context.DestinationAddress.ToString()}] {context.Message.MyIdentifier} announced their presence at {context.Message.MyTimestamp} UTC (Auth: {MessageAuthKey}) {hostString}";
                 Logger.Logger.Debug(presenceMessage);
                 await Console.Out.WriteLineAsync(presenceMessage);
             }

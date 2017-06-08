@@ -9,19 +9,16 @@ using BusRoutes.CentralDispatch.Busses;
 using BusRoutes.CentralDispatch.Config;
 using BusRoutes.CentralDispatch.Consumers;
 using MassTransit;
+using BusRoutes.CentralDispatch;
 
-namespace BusRoutes.WorkerServiceLib
+namespace BusRoutes.WorkerService
 {
     public class EventConsumerService : ServiceControl
     {
 
-        private BusTable _myBusTable;
-        private Guid? _currentBusId;
 
-        public EventConsumerService (BusTable myBusTable, Guid? currentBusId)
+        public EventConsumerService ()
         {
-            _myBusTable = myBusTable;
-            _currentBusId = currentBusId;
         }
 
         public bool Start(HostControl hostControl)
@@ -30,9 +27,9 @@ namespace BusRoutes.WorkerServiceLib
             {
                Logger.Debug("Service starting");
 
-                if (_currentBusId.HasValue)
+                if (!AzureBusList.isEmpty)
                 {
-                    _myBusTable.StartBus(_currentBusId.Value);
+                    AzureBusList.get().StartBus();
                 }
 
 

@@ -67,8 +67,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventConsumerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BusLine.cs" />
+    <Compile Include="BusService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BusRoutes.nuspec" />
@@ -79,10 +80,6 @@
     <ProjectReference Include="..\BusRoutes.CentralDispatch\BusRoutes.CentralDispatch.csproj">
       <Project>{f22d7fa4-bfa7-40c2-96bf-2a157e7ebef2}</Project>
       <Name>BusRoutes.CentralDispatch</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BussRoutes.WorkerServiceLib\BusRoutes.WorkerServiceLib.csproj">
-      <Project>{3f265047-b014-4326-977f-c872b20cb596}</Project>
-      <Name>BusRoutes.WorkerServiceLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
